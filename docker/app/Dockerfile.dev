@@ -1,0 +1,33 @@
+# Development image — code is volume-mounted, not copied.
+# Assets are served by the Vite dev server running on the host (npm run dev).
+FROM php:8.4-fpm-alpine
+
+RUN apk add --no-cache \
+    libpng-dev libjpeg-turbo-dev freetype-dev \
+    libzip-dev \
+    icu-dev icu-libs \
+    git unzip oniguruma-dev
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-configure intl \
+ && docker-php-ext-install \
+      pdo_mysql \
+      bcmath mbstring pcntl exif \
+      gd zip intl
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+# Install all deps (including dev) into the image so the vendor/ anonymous volume
+# takes precedence over the bind-mounted host directory (see docker-compose.dev.yml)
+COPY composer.json composer.lock ./
+RUN composer install --no-interaction --no-scripts --prefer-dist
+
+COPY docker/app/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 9000
+ENTRYPOINT ["/entrypoint.sh"]
+
+

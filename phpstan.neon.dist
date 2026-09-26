@@ -1,0 +1,16 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - database
+        - tests
+
+    # Level 5 is the highest that stays clean without annotating every Eloquent
+    # magic property. Raise it as you add your own typed code.
+    level: 5
+
+    # Catches the mistake this stack is most prone to: reading a model attribute
+    # that does not exist, which silently returns null instead of failing.
+    checkModelProperties: true

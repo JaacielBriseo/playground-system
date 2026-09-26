@@ -1,0 +1,71 @@
+services:
+  app:
+    image: ${APP_IMAGE}
+    container_name: app-app
+    restart: unless-stopped
+    environment:
+      CONTAINER_ROLE: app
+    env_file: .env
+    volumes:
+      - storage_data:/var/www/html/storage/app
+      - logs_data:/var/www/html/storage/logs
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - appnet
+
+  nginx:
+    image: ${WEB_IMAGE}
+    container_name: app-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - nginx_logs:/var/log/nginx/scanner
+    depends_on:
+      - app
+    networks:
+      - appnet
+
+  queue:
+    image: ${APP_IMAGE}
+    container_name: app-queue
+    restart: unless-stopped
+    environment:
+      CONTAINER_ROLE: queue
+    env_file: .env
+    volumes:
+      - storage_data:/var/www/html/storage/app
+      - logs_data:/var/www/html/storage/logs
+    depends_on:
+      - app
+    networks:
+      - appnet
+
+  scheduler:
+    image: ${APP_IMAGE}
+    container_name: app-scheduler
+    restart: unless-stopped
+    environment:
+      CONTAINER_ROLE: scheduler
+    env_file: .env
+    volumes:
+      - storage_data:/var/www/html/storage/app
+      - logs_data:/var/www/html/storage/logs
+    depends_on:
+      - app
+    networks:
+      - appnet
+
+volumes:
+  storage_data:
+  logs_data:
+  nginx_logs:
+
+networks:
+  appnet:
+    driver: bridge
+
