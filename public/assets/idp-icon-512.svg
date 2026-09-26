@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#0A7D55"/>
+  <!-- Nodo origen -->
+  <circle cx="160" cy="360" r="40" fill="white" opacity="0.5"/>
+  <!-- Nodo destino -->
+  <circle cx="360" cy="152" r="48" fill="white"/>
+  <!-- Ruta curva -->
+  <path d="M160 360 Q256 130 360 152" stroke="white" stroke-width="32" fill="none" stroke-linecap="round"/>
+  <!-- Nodo intermedio -->
+  <circle cx="256" cy="252" r="24" fill="white" opacity="0.85"/>
+</svg>
