@@ -53,25 +53,10 @@ const roles = {
         (await apiClient.delete<ApiResponse<unknown>>(`/super-admin/roles/${id}`)).data,
 };
 
-// Admin: Team management
-const team = {
-    invite: async (data: { email: string }) =>
-        (await apiClient.post<ApiResponse<{ email: string }>>('/admin/team/invite', data)).data,
-
-    removeMember: async (userId: number) =>
-        (await apiClient.delete<ApiResponse<unknown>>(`/admin/team/members/${userId}`)).data,
-
-    cancelInvitation: async (invitationId: number) =>
-        (await apiClient.delete<ApiResponse<unknown>>(`/admin/team/invitations/${invitationId}`)).data,
-
-    resendInvitation: async (invitationId: number) =>
-        (await apiClient.post<ApiResponse<unknown>>(`/admin/team/invitations/${invitationId}/resend`)).data,
-};
-
 /**
  * Every mutation goes through this object — components never call axios directly.
  * Add one namespace per domain module, mirroring routes/api.php.
  */
-export const api = { users, roles, team };
+export const api = { users, roles };
 
 

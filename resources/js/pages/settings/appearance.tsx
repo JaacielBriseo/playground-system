@@ -8,8 +8,8 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: route('admin.index') },
-    { title: 'Appearance settings', href: route('admin.settings.appearance') },
+    { title: 'Dashboard', href: route('super-admin.index') },
+    { title: 'Appearance settings', href: route('super-admin.settings.appearance') },
 ];
 
 export default function Appearance() {

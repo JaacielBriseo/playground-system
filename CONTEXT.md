@@ -15,7 +15,7 @@
 
 **Product name:**
 **One sentence:**
-**Who pays for it:**
+**Who it's for:**
 **What they were doing before:**
 
 ## 2. What this is NOT
@@ -37,14 +37,13 @@ conversations on these terms — one concept, one name.
 
 ## 4. Who uses it
 
-The template ships three roles. Describe what each one actually does in *this* product,
-and delete any you do not use.
+The template ships two roles. Describe what each one actually does in *this* product,
+and add any you need.
 
-| Role            | In this product they… |
-| --------------- | --------------------- |
-| `super_admin`   |                       |
-| `account_owner` |                       |
-| `team_member`   |                       |
+| Role          | In this product they… |
+| ------------- | --------------------- |
+| `super_admin` |                       |
+| `user`        |                       |
 
 ## 5. Core flows
 
@@ -62,13 +61,7 @@ weeks because nobody wrote them down.
 -
 -
 
-## 7. Pricing
-
-- **Plan:**
-- **Trial:** `SUBSCRIPTION_TRIAL_DAYS` (default 14), card required
-- **What happens when a customer stops paying:**
-
-## 8. Decisions and their reasons
+## 7. Decisions and their reasons
 
 A running log. Record the *why*, because the *what* is already in the code.
 
@@ -76,7 +69,7 @@ A running log. Record the *why*, because the *what* is already in the code.
 | ---- | -------- | --- | -------------------- |
 |      |          |     |                      |
 
-## 9. Explicitly out of scope
+## 8. Explicitly out of scope
 
 Things asked for, considered, and deliberately not built — with the reason, so the answer
 survives the next time somebody asks.

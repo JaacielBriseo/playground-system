@@ -18,7 +18,7 @@ class ActivityLogResource extends JsonResource
     public function toArray(Request $request): array
     {
         // causer is polymorphic; in this app it is always a User (or null for
-        // system-generated entries such as Stripe webhooks).
+        // system-generated entries).
         $causer = $this->causer instanceof User ? $this->causer : null;
 
         return [

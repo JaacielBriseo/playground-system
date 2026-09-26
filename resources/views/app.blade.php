@@ -18,7 +18,7 @@
         @if (auth()->user()->hasRole('super_admin'))
             @routes('super_admin')
         @else
-            @routes('tenant')
+            @routes('user')
         @endif
     @else
         @routes('guest')

@@ -1,6 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
-import { AlertTriangle, Ban, Building2, Clock, CreditCard, TrendingUp, Users } from 'lucide-react';
+import { Shield, TrendingUp, Users } from 'lucide-react';
 
 import AppLayout from '@/layouts/app-layout';
 import { useTranslation } from '@/lib/i18n';
@@ -10,25 +10,21 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { SharedData } from '@/types';
 
 interface Metrics {
-    tenants: number;
-    active_subscriptions: number;
-    trialing: number;
-    past_due: number;
-    suspended: number;
-    signups_this_month: number;
     users: number;
+    roles: number;
+    signups_this_month: number;
 }
 
 interface Props extends SharedData {
     metrics: Metrics;
 }
 
-function Stat({ icon: Icon, label, value, tone = 'default' }: { icon: typeof Users; label: string; value: number; tone?: 'default' | 'warning' }) {
+function Stat({ icon: Icon, label, value }: { icon: typeof Users; label: string; value: number }) {
     return (
         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <span className="text-muted-foreground text-sm font-medium">{label}</span>
-                <Icon className={tone === 'warning' && value > 0 ? 'h-4 w-4 text-amber-600' : 'text-muted-foreground h-4 w-4'} />
+                <Icon className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
                 <span className="text-2xl font-semibold tabular-nums">{value}</span>
@@ -46,23 +42,13 @@ export default function SuperAdminDashboard({ metrics, ...props }: Props) {
 
             <div className="flex flex-1 flex-col gap-5 p-4">
                 <section>
-                    <h1 className="text-xl font-semibold">{t('Platform overview')}</h1>
-                    <p className="text-muted-foreground mt-1 text-sm">
-                        {t('Across all tenants.')}{' '}
-                        <Link href={route('super-admin.tenants.index')} className="underline underline-offset-4">
-                            {t('Manage tenants')}
-                        </Link>
-                    </p>
+                    <h1 className="text-xl font-semibold">{t('Overview')}</h1>
                 </section>
 
-                <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <Stat icon={Building2} label={t('Tenants')} value={metrics.tenants} />
-                    <Stat icon={CreditCard} label={t('Active subscriptions')} value={metrics.active_subscriptions} />
-                    <Stat icon={Clock} label={t('In trial')} value={metrics.trialing} />
-                    <Stat icon={AlertTriangle} label={t('Past due')} value={metrics.past_due} tone="warning" />
-                    <Stat icon={Ban} label={t('Suspended')} value={metrics.suspended} tone="warning" />
-                    <Stat icon={TrendingUp} label={t('New this month')} value={metrics.signups_this_month} />
+                <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     <Stat icon={Users} label={t('Users')} value={metrics.users} />
+                    <Stat icon={Shield} label={t('Roles')} value={metrics.roles} />
+                    <Stat icon={TrendingUp} label={t('New this month')} value={metrics.signups_this_month} />
                 </section>
             </div>
         </AppLayout>

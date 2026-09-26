@@ -45,8 +45,7 @@ class EmailVerificationTest extends TestCase
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        // Unsubscribed tenant → redirects to subscription checkout after verification
-        $response->assertRedirect(route('subscription.checkout', absolute: false) . '?verified=1');
+        $response->assertRedirect(route('super-admin.index', absolute: false) . '?verified=1');
     }
 
     public function test_email_is_not_verified_with_invalid_hash()

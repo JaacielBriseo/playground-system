@@ -15,10 +15,7 @@ interface AppLayoutProps extends Partial<SharedData> {
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
-    const { user, isAccountOwner, isSuperAdmin, teamRole } = useAuth();
-
-    const isTeamMember = teamRole !== null;
-    const canShow = isAccountOwner || isSuperAdmin || isTeamMember;
+    const { user, isSuperAdmin } = useAuth();
 
     // All hooks must come before any conditional return (Rules of Hooks)
     useEffect(() => {
@@ -28,10 +25,10 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
     }, [user]);
 
     useEffect(() => {
-        if (user && !canShow) {
+        if (user && !isSuperAdmin) {
             router.visit(route('unauthorized'));
         }
-    }, [user, canShow]);
+    }, [user, isSuperAdmin]);
 
     // Depend on individual flash values, not the object reference, to avoid
     // re-firing when the flash container is replaced with the same null values
@@ -62,7 +59,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.flash?.success, props.flash?.error, props.flash?.warning, props.flash?.info]);
 
-    if (!user || !canShow) {
+    if (!user || !isSuperAdmin) {
         return null;
     }
 

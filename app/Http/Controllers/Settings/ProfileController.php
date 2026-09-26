@@ -43,7 +43,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return to_route('admin.settings.profile');
+        return to_route('super-admin.settings.profile');
     }
 
     /**

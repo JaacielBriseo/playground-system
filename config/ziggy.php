@@ -7,7 +7,6 @@ return [
         'storage.*',
         'horizon.*',
         'telescope.*',
-        'cashier.*',
     ],
 
     'groups' => [
@@ -16,23 +15,19 @@ return [
             'home',
             'unauthorized',
             'login',
-            'register',
             'password.*',
             'verification.*',
             'password.confirm',
             'logout',
-            'invitation.*',
         ],
 
-        // account_owner and team_member — admin panel users
-        'tenant' => [
+        // Authenticated users without panel access
+        'user' => [
             'home',
             'unauthorized',
             'logout',
             'verification.*',
             'password.confirm',
-            'subscription.*',
-            'admin.*',
             'api.user',
         ],
 

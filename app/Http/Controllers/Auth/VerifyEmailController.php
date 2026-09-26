@@ -14,25 +14,10 @@ class VerifyEmailController extends Controller
      */
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect($this->redirectAfterVerification($request));
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
+        if (! $request->user()->hasVerifiedEmail() && $request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect($this->redirectAfterVerification($request));
-    }
-
-    private function redirectAfterVerification(EmailVerificationRequest $request): string
-    {
-        $tenant = $request->user()->tenant;
-
-        if ($tenant && $tenant->subscribed('default')) {
-            return route('admin.index') . '?verified=1';
-        }
-
-        return route('subscription.checkout') . '?verified=1';
+        return redirect(route('super-admin.index') . '?verified=1');
     }
 }

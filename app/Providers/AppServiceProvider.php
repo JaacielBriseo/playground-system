@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Listeners\LogCashierWebhookActivity;
-use App\Models\Tenant;
 use Carbon\CarbonImmutable;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
@@ -12,12 +10,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Cashier\Cashier;
-use Laravel\Cashier\Events\WebhookHandled;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,9 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Cashier::useCustomerModel(Tenant::class);
         JsonResource::withoutWrapping();
-        Event::listen(WebhookHandled::class, LogCashierWebhookActivity::class);
         $this->configureCommands();
         $this->configureDates();
         $this->configureUrl();
@@ -90,14 +83,6 @@ class AppServiceProvider extends ServiceProvider
 
         if (! config('session.encrypt')) {
             throw new \RuntimeException('SESSION_ENCRYPT must be true in production.');
-        }
-
-        if (! config('cashier.price_id')) {
-            throw new \RuntimeException('STRIPE_PRICE_ID must be set in production — without it nobody can subscribe.');
-        }
-
-        if (! config('cashier.webhook.secret')) {
-            throw new \RuntimeException('STRIPE_WEBHOOK_SECRET must be set in production — subscription state would never update.');
         }
     }
 }

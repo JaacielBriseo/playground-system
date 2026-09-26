@@ -14,7 +14,7 @@ export const hasSomeRole = (user: User | null | undefined, roles: Array<Role>) =
 
 export const Roles = {
     SuperAdmin: 'super_admin',
-    AccountOwner: 'account_owner',
+    User: 'user',
 } as const;
 
 export type Role = (typeof Roles)[keyof typeof Roles];

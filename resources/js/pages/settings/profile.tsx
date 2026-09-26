@@ -13,8 +13,8 @@ import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: route('admin.index') },
-    { title: 'Profile settings', href: route('admin.settings.profile') },
+    { title: 'Dashboard', href: route('super-admin.index') },
+    { title: 'Profile settings', href: route('super-admin.settings.profile') },
 ];
 
 type ProfileForm = {
@@ -40,7 +40,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route('admin.settings.profile.update'), {
+        patch(route('super-admin.settings.profile.update'), {
             preserveScroll: true,
         });
     };

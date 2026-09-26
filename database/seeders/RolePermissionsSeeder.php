@@ -21,27 +21,14 @@ class RolePermissionsSeeder extends Seeder
             'label' => 'Super Admin',
         ]);
 
-        $accountOwnerRole = Role::firstOrCreate([
-            'name' => RolesEnum::AccountOwner->value,
-            'label' => 'Account Owner',
-        ]);
-
         Role::firstOrCreate([
-            'name' => RolesEnum::TeamMember->value,
-            'label' => 'Team Member',
+            'name' => RolesEnum::User->value,
+            'label' => 'User',
         ]);
 
         $superAdminRole->syncPermissions([
-            PermissionsEnum::ManageTenants->value,
-            PermissionsEnum::ImpersonateTenants->value,
             PermissionsEnum::ViewPlatformMetrics->value,
         ]);
-
-        $accountOwnerRole->syncPermissions([
-            PermissionsEnum::ManageSubscription->value,
-            PermissionsEnum::ManageTeam->value,
-            PermissionsEnum::ViewDashboard->value,
-        ]);
-        // team_member role has no default permissions — they are granted per-invitation
+        // user role has no default permissions
     }
 }

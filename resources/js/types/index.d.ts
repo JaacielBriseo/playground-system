@@ -4,8 +4,6 @@ import type { Config } from 'ziggy-js';
 
 export interface Auth {
     user?: User | null;
-    team_role?: 'owner' | 'member' | null;
-    tenant?: { name: string; is_solo: boolean } | null;
 }
 
 export interface BreadcrumbItem {
@@ -46,9 +44,6 @@ export interface SharedData {
     locale: string;
     /** Flat source-string → translation map for the active locale. */
     translations: Record<string, string>;
-    /** True while a super admin is inside a tenant support session. */
-    is_impersonating: boolean;
-    impersonated_name: string | null;
     [key: string]: unknown;
 }
 

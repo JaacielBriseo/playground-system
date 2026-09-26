@@ -2,19 +2,16 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "jaaciel/saas-template",
     "type": "project",
-    "description": "Multi-tenant SaaS starter: Laravel + Inertia + React, tenant isolation, RBAC and Stripe billing.",
+    "description": "Admin + public site starter: Laravel + Inertia + React with RBAC.",
     "keywords": [
         "laravel",
-        "saas",
-        "multi-tenant",
-        "stripe",
+        "admin",
         "inertia"
     ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
         "inertiajs/inertia-laravel": "^3.1",
-        "laravel/cashier": "^16.0",
         "laravel/framework": "^13.0",
         "laravel/sanctum": "^4.3",
         "laravel/tinker": "^3.0",

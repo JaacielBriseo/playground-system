@@ -2,17 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Enums\RolesEnum;
-use App\Models\Tenant;
-use App\Models\User;
 use Database\Seeders\RolePermissionsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Str;
+use Tests\Concerns\CreatesUsers;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
-    use RefreshDatabase;
+    use CreatesUsers, RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -22,22 +19,16 @@ class DashboardTest extends TestCase
 
     public function test_guests_are_redirected_to_the_login_page()
     {
-        $this->get('/admin')->assertRedirect('/login');
+        $this->get('/super-admin')->assertRedirect('/login');
     }
 
-    public function test_authenticated_users_can_visit_the_dashboard()
+    public function test_super_admins_can_visit_the_dashboard()
     {
-        $tenant = Tenant::factory()->create(['status' => 'active']);
-        $tenant->subscriptions()->create([
-            'type' => 'default',
-            'stripe_id' => 'sub_' . Str::random(14),
-            'stripe_status' => 'active',
-            'stripe_price' => 'price_test',
-            'quantity' => 1,
-        ]);
-        $user = User::factory()->create(['tenant_id' => $tenant->id]);
-        $user->assignRole(RolesEnum::AccountOwner);
+        $this->actingAs($this->superAdmin())->get('/super-admin')->assertOk();
+    }
 
-        $this->actingAs($user->fresh())->get('/admin')->assertOk();
+    public function test_regular_users_cannot_visit_the_dashboard()
+    {
+        $this->actingAs($this->regularUser())->get('/super-admin')->assertForbidden();
     }
 }

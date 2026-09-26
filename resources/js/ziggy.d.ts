@@ -4,23 +4,6 @@ declare module 'ziggy-js' {
     "api.user": [],
     "home": [],
     "unauthorized": [],
-    "subscription.checkout": [],
-    "subscription.start": [],
-    "subscription.success": [],
-    "subscription.inactive": [],
-    "invitation.show": [
-        {
-            "name": "token",
-            "required": true
-        }
-    ],
-    "invitation.accept": [
-        {
-            "name": "token",
-            "required": true
-        }
-    ],
-    "register": [],
     "login": [],
     "password.request": [],
     "password.email": [],
@@ -45,16 +28,12 @@ declare module 'ziggy-js' {
     "verification.send": [],
     "password.confirm": [],
     "logout": [],
-    "admin.settings.profile": [],
-    "admin.settings.profile.update": [],
-    "admin.settings.profile.destroy": [],
-    "admin.settings.password": [],
-    "admin.settings.password.update": [],
-    "admin.settings.appearance": [],
-    "admin.billing-portal": [],
-    "admin.subscription.status": [],
-    "admin.index": [],
-    "admin.team.index": [],
+    "super-admin.settings.profile": [],
+    "super-admin.settings.profile.update": [],
+    "super-admin.settings.profile.destroy": [],
+    "super-admin.settings.password": [],
+    "super-admin.settings.password.update": [],
+    "super-admin.settings.appearance": [],
     "super-admin.index": [],
     "super-admin.users.index": [],
     "super-admin.users.create": [],
@@ -81,29 +60,6 @@ declare module 'ziggy-js' {
             "binding": "id"
         }
     ],
-    "super-admin.tenants.index": [],
-    "super-admin.tenants.suspend": [
-        {
-            "name": "tenant",
-            "required": true,
-            "binding": "id"
-        }
-    ],
-    "super-admin.tenants.reactivate": [
-        {
-            "name": "tenant",
-            "required": true,
-            "binding": "id"
-        }
-    ],
-    "super-admin.tenants.impersonate": [
-        {
-            "name": "tenant",
-            "required": true,
-            "binding": "id"
-        }
-    ],
-    "super-admin.impersonation.stop": [],
     "super-admin.activity-log.index": []
 }
 }

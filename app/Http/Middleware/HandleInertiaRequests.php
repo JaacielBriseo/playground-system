@@ -38,23 +38,13 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
 
-        $user = $request->user()?->loadMissing('roles', 'permissions', 'teamMember', 'tenant');
-
-        $tenantData = null;
-        if ($user?->tenant_id) {
-            $tenantData = [
-                'name'    => $user->tenant?->name,
-                'is_solo' => $user->tenant->users()->count() <= 1,
-            ];
-        }
+        $user = $request->user()?->loadMissing('roles', 'permissions');
 
         return [
             ...parent::share($request),
             'name' => config('app.name'),
             'auth' => [
-                'user'      => $user ? new UserResource($user) : null,
-                'team_role' => $user?->teamMember?->role,
-                'tenant'    => $tenantData,
+                'user' => $user ? new UserResource($user) : null,
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),
@@ -74,14 +64,6 @@ class HandleInertiaRequests extends Middleware
             // Lazily evaluated so partial reloads do not re-ship the whole dictionary.
             'locale'       => app()->getLocale(),
             'translations' => fn (): array => Translations::forLocale(app()->getLocale()),
-
-            // Super admin support sessions: drives the persistent "exit impersonation" banner.
-            // Read from the session rather than the `is_impersonating` request attribute —
-            // Inertia::share() runs before route middleware, so RoleWithImpersonation has
-            // not set that attribute yet. The tenant name is stashed at impersonation start
-            // to keep this free of a per-request query.
-            'is_impersonating'  => fn (): bool => $request->session()->has('impersonated_tenant_id'),
-            'impersonated_name' => fn (): ?string => $request->session()->get('impersonated_tenant_name'),
         ];
     }
 }

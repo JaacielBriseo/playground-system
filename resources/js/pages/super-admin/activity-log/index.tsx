@@ -30,8 +30,7 @@ interface Props extends Partial<SharedData> {
 }
 
 const logNameColor: Record<string, string> = {
-    saas:   'bg-blue-100 text-blue-800',
-    stripe: 'bg-purple-100 text-purple-800',
+    auth: 'bg-blue-100 text-blue-800',
 };
 
 export default function SuperAdminActivityLogPage({ logs, ...props }: Props) {
@@ -65,8 +64,7 @@ export default function SuperAdminActivityLogPage({ logs, ...props }: Props) {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">{t('All')}</SelectItem>
-                            <SelectItem value="saas">SaaS</SelectItem>
-                            <SelectItem value="stripe">Stripe</SelectItem>
+                            <SelectItem value="auth">{t('Auth')}</SelectItem>
                         </SelectContent>
                     </Select>
                 </section>

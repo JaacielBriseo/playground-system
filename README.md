@@ -1,8 +1,7 @@
-# SaaS Template
+# App Template
 
-A multi-tenant SaaS starting point: **Laravel 13 + Inertia 2 + React 19 + TypeScript**,
-with tenant isolation, roles, Stripe subscriptions that actually gate access, team
-invitations, and a super admin console.
+An admin + public site starting point: **Laravel 13 + Inertia 2 + React 19 + TypeScript**,
+with roles and permissions, a super admin console, and an activity log.
 
 It ships **no domain code**. You add that.
 
@@ -12,24 +11,18 @@ It ships **no domain code**. You add that.
 
 | Area | What is already built |
 | --- | --- |
-| **Tenancy** | Single database, `tenant_id` column, global Eloquent scope. Add the trait to a model and it is isolated. |
-| **Auth** | Register, login, email verification, password reset, confirm password — all wired to tenants. |
-| **RBAC** | Spatie Permission with `super_admin`, `account_owner`, `team_member`, plus a role/permission editor. |
-| **Billing** | Stripe Checkout, Customer Portal, webhooks. No subscription means no access, enforced in middleware. |
-| **Teams** | Email invitations with expiry, accept flow, member removal. |
-| **Super admin** | Platform metrics, tenant list with suspend/reactivate, time-limited impersonation with an audit trail, activity log. |
+| **Auth** | Login, email verification, password reset, confirm password. Accounts are created by an admin — there is no public self-registration. |
+| **RBAC** | Spatie Permission with `super_admin`, plus a role/permission editor. A generic `user` role ships as scaffolding for authenticated visitors with no panel access. |
+| **Super admin** | User management, role/permission editor, activity log. |
 | **i18n** | Spanish and English, keyed on English source strings, shared across back and front end. |
-| **Quality** | 57 tests, Pint, PHPStan level 5, ESLint, `tsc --noEmit` — all green. |
+| **Quality** | Pint, PHPStan level 5, ESLint, `tsc --noEmit` — all green. |
 
-### The three access surfaces
-
-They never share a middleware group, so the boundaries cannot blur.
+### The two access surfaces
 
 | Module | Prefix | Who |
 | --- | --- | --- |
-| **Public** | `/` | Anyone — landing page, pricing, auth, invitation accept |
-| **Admin** | `/admin` | A tenant's users, once subscribed |
-| **Super Admin** | `/super-admin` | You, the platform operator |
+| **Public** | `/` | Anyone — landing page, auth |
+| **Super Admin** | `/super-admin` | You, the operator |
 
 ---
 
@@ -51,32 +44,14 @@ App at http://localhost:8000, mail at http://localhost:8025.
 Seeded accounts (password `password` for both):
 
 - `superadmin@example.com` → `/super-admin`
-- `owner@example.com` → `/admin`
-
-The owner starts **unsubscribed**, so the first thing you see is the billing gate. That is
-deliberate — it is the flow most worth exercising first.
-
-### Stripe
-
-```bash
-# 1. Create one recurring price in the Stripe dashboard, then:
-STRIPE_KEY=pk_test_...
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_PRICE_ID=price_...
-
-# 2. Forward webhooks and copy the signing secret into STRIPE_WEBHOOK_SECRET
-stripe listen --forward-to http://localhost:8000/stripe/webhook
-```
-
-The app boots fine without these — the landing page degrades and every tenant stays
-locked.
+- `user@example.com` → no panel access, demonstrates the `user` role
 
 ---
 
 ## Verify
 
 ```bash
-php artisan test              # 57 tests, in-memory SQLite, no Docker needed
+php artisan test               # in-memory SQLite, no Docker needed
 ./vendor/bin/pint --test
 ./vendor/bin/phpstan analyse
 npm run types && npm run lint && npm run build
@@ -95,13 +70,4 @@ npm run types && npm run lint && npm run build
 and the `beta_mode` config, `app/Models/File.php` with its migration and uploader
 components, and the English or Spanish half of `lang/` if you only need one language.
 
-**Read before writing code:** `docs/ARCHITECTURE.md` — especially §7 (tenancy, and the
-three places isolation stops) and §8 (why subscription validity keys off `ends_at`, not
-`stripe_status`).
-
----
-
-## Deliberately not included
-
-Subscription tiers, per-plan feature flags, usage metering, seat limits, per-tenant
-subdomains, S3 uploads, PDF export, CI config. Each is a real decision, not a default.
+**Read before writing code:** `docs/ARCHITECTURE.md`.

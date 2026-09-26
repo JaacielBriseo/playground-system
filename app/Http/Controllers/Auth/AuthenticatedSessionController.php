@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
         $user = Auth::user();
 
-        activity('saas')
+        activity('auth')
             ->causedBy($user)
             ->withProperties(['ip' => $request->ip()])
             ->log('user.login');
@@ -47,11 +47,9 @@ class AuthenticatedSessionController extends Controller
             return Inertia::location(redirect()->intended($callbackUrl)->getTargetUrl());
         }
 
-        if ($user->hasRole(RolesEnum::SuperAdmin)) {
-            $redirectTo = route('super-admin.index', absolute: false);
-        } else {
-            $redirectTo = route('admin.index', absolute: false);
-        }
+        $redirectTo = $user->hasRole(RolesEnum::SuperAdmin)
+            ? route('super-admin.index', absolute: false)
+            : route('home', absolute: false);
 
         return Inertia::location(redirect()->intended($redirectTo)->getTargetUrl());
     }

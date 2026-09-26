@@ -33,7 +33,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                    <Link className="hover:bg-muted block w-full cursor-pointer" href={route('admin.settings.profile')}>
+                    <Link className="hover:bg-muted block w-full cursor-pointer" href={route('super-admin.settings.profile')}>
                         <SettingsIcon className="mr-2" /> {t('Settings')}
                     </Link>
                 </DropdownMenuItem>

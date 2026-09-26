@@ -12,8 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: route('admin.index') },
-    { title: 'Password settings', href: route('admin.settings.password') },
+    { title: 'Dashboard', href: route('super-admin.index') },
+    { title: 'Password settings', href: route('super-admin.settings.password') },
 ];
 
 export default function Password() {
@@ -38,7 +38,7 @@ export default function Password() {
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
 
-        put(route('admin.settings.password.update'), {
+        put(route('super-admin.settings.password.update'), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

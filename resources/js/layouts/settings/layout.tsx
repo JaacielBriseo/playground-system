@@ -11,17 +11,17 @@ import { type PropsWithChildren } from 'react';
 const getSidebarNavItems = (t: (key: string) => string): NavItem[] => [
     {
         title: t('Profile'),
-        href: route('admin.settings.profile'),
+        href: route('super-admin.settings.profile'),
         icon: null,
     },
     {
         title: t('Password'),
-        href: route('admin.settings.password'),
+        href: route('super-admin.settings.password'),
         icon: null,
     },
     {
         title: t('Appearance'),
-        href: route('admin.settings.appearance'),
+        href: route('super-admin.settings.appearance'),
         icon: null,
     },
 ];

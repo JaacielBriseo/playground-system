@@ -19,10 +19,6 @@ class EmailVerificationPromptController extends Controller
             return Inertia::render('auth/verify-email', ['status' => $request->session()->get('status')]);
         }
 
-        $tenant = $request->user()->tenant;
-
-        return $tenant && $tenant->subscribed('default')
-            ? redirect()->route('admin.index')
-            : redirect()->route('subscription.checkout');
+        return redirect()->route('super-admin.index');
     }
 }
